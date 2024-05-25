@@ -1,0 +1,157 @@
+.loginSection{
+  height: 80vh;
+}
+.login{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  background-color: whitesmoke;
+  padding: 2rem 1rem;
+  box-shadow: 4px 4px 4px gray, -2px -2px 4px gray;
+}
+label{
+  font-size: 20px;
+  text-align: left;
+  margin-bottom: 5px;
+  font-family: monospace;
+}
+.loginHeading{
+  font-size: 18px;
+  color: rgb(27, 21, 33);
+}
+.loginHeading button{
+  margin-top: 1rem ;
+  width: 100%;
+}
+.login input{
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 10px 10px;
+  width: 300px;
+  border: none;
+  box-shadow: 1px 1px 5px black;
+  margin-bottom: 1rem;
+}
+.loginHeading h3{
+  font-size: 2rem;
+  color: rgb(55, 117, 199);
+  text-align: center; 
+  border-bottom: 2px dashed black;
+  padding: 0rem 1rem 1rem 1rem;
+}
+.fontSize15 {
+  font-size: 13px;
+  margin-top: -10px;
+}
+.monoText{
+  font-family: monospace;
+}
+.gradientColr{
+  background-image: linear-gradient(  white , whitesmoke, gray, rgb(104, 101, 101) );
+}
+.gradientColrLight{
+  background-image: linear-gradient(  white , whitesmoke, gray, rgb(104, 101, 101) );
+
+}
+.detail-card{
+  height: 125px;
+  border-radius: 12px;
+  box-shadow: 2px 2px 5px gray;
+  background: whitesmoke;
+  overflow: hidden;
+}
+.home-slider{
+  padding: 5px;
+  height: 450px;
+  border-radius: 12px;
+  box-shadow: 2px 2px 5px gray;
+  background: whitesmoke;
+  background-image: linear-gradient( rgb(104, 101, 101), whitesmoke, gray,white   );
+}
+.notificationDiv{
+  max-height: 450px;
+  overflow: auto;
+  border-radius: 12px;
+  box-shadow: 2px 2px 5px gray;
+  background: whitesmoke;
+}
+/* notification table start */
+.notificationDiv h4{
+  padding: 15px 10px;
+  border-bottom: 2px dashed gray;
+}
+.circle{
+  height: 5px;
+  width: 5px;
+  border: 1px solid blue;
+}
+.notificationDiv::-webkit-scrollbar {
+  width: .1px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+}
+
+/* notification table end */
+.productTable{
+  height: 74.5vh;
+  overflow: auto;
+}
+.productTable::-webkit-scrollbar {
+  width: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+}
+.productTable::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 12px;
+}
+.carousel-item img{
+  height: 440px;
+}
+@media screen and (max-width: 400px){
+  .mobHide{
+    display: none;
+  }
+  .das-card h3{
+    font-size: 20px;
+  }
+  .detail-card{
+    height: 100px;
+    margin: 10px 5px !important;
+  }
+  .carousel-item img{
+    height: 220px;
+  }
+  .home-slider{
+    height: 225px;
+    overflow: hidden;
+    margin: 10px 4px !important;
+  }
+}
+.gradientColrHead{
+  background-image: linear-gradient(white, gray);
+}
+.gradientUnreadNot{
+  background-color: rgb(235, 241, 243);
+  color: gray;
+  border-radius: 10px 0px 10px 0px;
+  border-bottom: 1px dashed green;
+}
+.readNotifyBg{
+  background-color: whitesmoke;
+  color: gray;
+  border-radius: 10px 0px 10px 0px;
+}
+
+.notificationContainer{
+  overflow: auto;
+  height: 300px;
+}
+.notificationContainer::-webkit-scrollbar {
+  width: 5px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 1px;
+}
