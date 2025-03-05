@@ -18,9 +18,10 @@ function AddProduct() {
     subTitle: "",
     price: "",
     category: "",
-    subCategory:"",
+    subCategory: [],
     discription: "",
     quantity: "",
+    discountedPrice:""
   });
   const ValidateSchema = Yup.object().shape({
     productHeroImg: Yup.string(),
@@ -28,9 +29,10 @@ function AddProduct() {
     subTitle: Yup.string().required("This field is required"),
     price: Yup.string().required("This field is required"),
     category: Yup.string().required("This field is required"),
-    category: Yup.string(),
+    subCategory: Yup.array().of(Yup.string().oneOf(["Story", "Best Seller", "Deal Of the Day"])),
     discription: Yup.string().required("This field is required"),
     quantity: Yup.string().required("This field is required"),
+    discountedPrice: Yup.string().required("This field is required"),
   });
   const onSubmit = async (values, { resetForm }) => {
     setLoader(true);
@@ -43,6 +45,7 @@ function AddProduct() {
     formData.append("quantity", values.quantity);
     formData.append("category", values.category);
     formData.append("subCategory", values.subCategory);
+    formData.append("discountedPrice", values.discountedPrice);
     try {
       let response;
       if (params.id) {
@@ -50,6 +53,7 @@ function AddProduct() {
         if (values.productHeroImg) {
           formData.append("productHeroImg", values.productHeroImg);
         }
+        
         formData.append("title", values.title);
         formData.append("subTitle", values.subTitle);
         formData.append("price", values.price);
@@ -57,17 +61,20 @@ function AddProduct() {
         formData.append("quantity", values.quantity);
         formData.append("category", values.category);
         formData.append("subCategory", values.subCategory);
+        formData.append("discountedPrice", values.discountedPrice);
         formData.append("_id", params.id);
         response = await productServ.update(formData);
       } else {
         const formData = new FormData();
         formData.append("productHeroImg", values.productHeroImg);
+        // formData.append("video", values.video);
         formData.append("title", values.title);
         formData.append("subTitle", values.subTitle);
         formData.append("price", values.price);
         formData.append("discription", values.discription);
         formData.append("quantity", values.quantity);
         formData.append("category", values.category);
+        formData.append("discountedPrice", values.discountedPrice);
         formData.append("subCategory", values.subCategory);
         response = await productServ.create(formData);
       }
@@ -91,15 +98,18 @@ function AddProduct() {
   const getProductDetails = async () => {
     try {
       let response = await productServ.getProduct(params.id);
+      const subCategoryString = response.data.data.subCategory;
+      const subCategoryArray = subCategoryString.split(",").map(item => item.trim());
       setPrev(response.data.data.productHeroImg);
       setValue({
         title: response.data.data.title,
         subTitle: response.data.data.subTitle,
         price: response.data.data.price,
         category: response.data.data.category,
-        subCategory: response.data.data.subCategory,
+        subCategory: subCategoryArray,
         discription: response.data.data.discription,
         quantity: response.data.data.quantity,
+        discountedPrice: response.data.data.discountedPrice,
       });
     } catch (error) {
       console.log(error);
@@ -110,6 +120,17 @@ function AddProduct() {
       getProductDetails();
     }
   }, []);
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    const { subCategory } = formik.values;
+  
+    if (checked) {
+      formik.setFieldValue("subCategory", [...subCategory, value]);
+    } else {
+      formik.setFieldValue("subCategory", subCategory.filter((v) => v !== value));
+    }
+  };
+  
   return (
     <div style={{ background: "whitesmoke" }}>
       <div className="row m-lg-4 bg-light rounded shadow-lg" style={{ border: "1px solid rgba(125, 129, 144, 0.15)" }}>
@@ -194,8 +215,10 @@ function AddProduct() {
                   ) : null}
                   <option selected>Select Category</option>
                   <option value="Oil">Oil</option>
-                  <option value="A2Milk">A2 Milk</option>
                   <option value="Ghee">Ghee</option>
+                  <option value="Dehydrated">Dehydrated</option>
+                  <option value="SuperFood">Super Food</option>
+                  <option value="A2Milk">A2 Milk</option>
                   <option value="Jaggery">Jaggery</option>
                   <option value="Pulses">Pulses</option>
                 </select>
@@ -215,6 +238,20 @@ function AddProduct() {
                 ) : null}
               </div>
               <div className="col-sm-6 py-2  col-6">
+                <label>Discounted Price</label>
+                <input
+                  className="form-control"
+                  name="discountedPrice"
+                  type="number"
+                  value={formik.values.discountedPrice}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.discountedPrice && formik.errors.discountedPrice ? (
+                  <div className="formik-errors text-danger ">{formik.errors.discountedPrice}</div>
+                ) : null}
+              </div>
+              <div className="col-sm-6 py-2  col-6">
                 <label>Quantity</label>
                 <input
                   className="form-control"
@@ -227,24 +264,48 @@ function AddProduct() {
                   <div className="formik-errors text-danger ">{formik.errors.quantity}</div>
                 ) : null}
               </div>
-              <div className="col-sm-6 py-2 col-12">
-                <label>Sub Category</label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="subCategory"
-                  onChange={formik.handleChange}
-                  value={formik.values.subCategory}
-                >
-                  <option selected>Select Category</option>
-                  <option value="On Sale">On Sale</option>
-                  <option value="Best Seller">Best Seller</option>
-                  <option value="Deal Of the Day">Deal Of the Day</option>
-                </select>
-              </div>
-              
+              <div className="col-sm-12 py-2 col-12">
+  <label>Special Appearance</label>
+  <div>
+    <div className="form-check">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        name="subCategory"
+        value="Story"
+        checked={formik.values.subCategory.includes("Story")}
+        onChange={handleCheckboxChange}
+      />
+      <label className="form-check-label">Story</label>
+    </div>
+    <div className="form-check">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        name="subCategory"
+        value="Best Seller"
+        checked={formik.values.subCategory.includes("Best Seller")}
+        onChange={handleCheckboxChange}
+      />
+      <label className="form-check-label">Best Seller</label>
+    </div>
+    <div className="form-check">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        name="subCategory"
+        value="Deal Of the Day"
+        checked={formik.values.subCategory.includes("Deal Of the Day")}
+        onChange={handleCheckboxChange}
+      />
+      <label className="form-check-label">Deal Of the Day</label>
+    </div>
+  </div>
+</div>
+
             </div>
-            <div className="col-12 mt-4">
+            
+            <div className="col-12 col-md-12 ">
               <label>Discription</label>
               <textarea
                 className="form-control"

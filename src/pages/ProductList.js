@@ -77,11 +77,11 @@ function ProductList() {
               <option selected value="">
                 Select Category
               </option>
-              <option value="Masale">Masale</option>
-              <option value="Pickels">Pickels</option>
-              <option value="Powder">Powder</option>
-              <option value="Dairy Product">Dairy Product</option>
               <option value="Oil">Oil</option>
+                  <option value="A2Milk">A2 Milk</option>
+                  <option value="Ghee">Ghee</option>
+                  <option value="Jaggery">Jaggery</option>
+                  <option value="Pulses">Pulses</option>
             </select>
           </div>
           <div className=" col-md-3 p-1 col-6">
@@ -110,6 +110,9 @@ function ProductList() {
                     Category
                   </th>
                   <th scope="col" className="py-3 text-center">
+                    Special Apperence
+                  </th>
+                  <th scope="col" className="py-3 text-center">
                     Created At
                   </th>
                   <th scope="col" className="py-3 text-center">
@@ -136,13 +139,17 @@ function ProductList() {
                         <td className="align-middle">{v?.title}</td>
                         <td className="align-middle text-center">{v?.price}</td>
                         <td className="align-middle text-center">{v?.category}</td>
+                        <td className="align-middle text-center">{v?.subCategory}</td>
                         <td className="align-middle text-center"> {moment(v.createdAt).format("DD/MM/YYYY")}</td>
                         <td className="align-middle text-center">
                           <i className="fa fa-eye"></i>{" "}
                           <span onClick={() => navigate(`/addProduct/${v._id}`)}>
-                            {" "}
-                            <i className="fa fa-edit"></i>
+                            {" "} 
+                            <i className="fa fa-edit "></i>
                           </span>{" "}
+                          <span onClick={() => alert("Coming soon")}>
+                            <i className="fa fa-video me-1"></i>
+                          </span>
                           <span onClick={() => deleteRecord(v._id)}>
                             <i className="fa fa-trash"></i>
                           </span>
